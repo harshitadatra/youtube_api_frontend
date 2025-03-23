@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const CommentSection = ({ videoId }) => {
   const [comments, setComments] = useState([]);
   const [text, setText] = useState("");
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/comment/${videoId}`)
+    axios.get(`${API_URL}/comment/${videoId}`)
       .then((res) => setComments(res.data))
       .catch((err) => console.error(err));
   }, [videoId]);
 
   const handleSubmit = () => {
-    axios.post("http://localhost:5000/comment/add", { videoId, text })
+    axios.post(`${API_URL}/comment/add`, { videoId, text })
       .then((res) => setComments([...comments, res.data]))
       .catch((err) => console.error(err));
     setText("");
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:5000/comment/${id}`)
+    axios.delete(`${API_URL}/comment/${id}`)
       .then(() => setComments(comments.filter(c => c._id !== id)))
       .catch((err) => console.error(err));
   };

@@ -3,6 +3,8 @@ import axios from "axios";
 // import { FaEdit, FaSave } from "react-icons/fa"; // Import edit and save icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 
 const VideoDetails = ({ videoId }) => {
@@ -11,7 +13,7 @@ const VideoDetails = ({ videoId }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/video/${videoId}`)
+    axios.get(`${API_URL}/video/${videoId}`)
       .then((res) => {
         setVideo(res.data);
         setNewTitle(res.data.title);
@@ -20,7 +22,7 @@ const VideoDetails = ({ videoId }) => {
   }, [videoId]);
 
   const updateTitle = () => {
-    axios.post("http://localhost:5000/video/update-title", { videoId, newTitle })
+    axios.post(`${API_URL}/video/update-title`, { videoId, newTitle })
       .then((res) => {
         setVideo(res.data);  // Update UI with new title
         setIsEditing(false); // Disable input field after saving
